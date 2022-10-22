@@ -21,7 +21,6 @@ import org.thymeleaf.spring5.SpringTemplateEngine;
 import org.thymeleaf.spring5.templateresolver.SpringResourceTemplateResolver;
 import org.thymeleaf.spring5.view.ThymeleafViewResolver;
 
-import com.github.yuriiyukh.dao.DaoException;
 
 @Configuration
 @ComponentScan("com.github.yuriiyukh")
@@ -56,7 +55,7 @@ public class SpringConfig implements WebMvcConfigurer {
     }
     
     @Bean
-    public DataSource dataSource() throws DaoException {
+    public DataSource dataSource() {
         DriverManagerDataSource dataSource = new DriverManagerDataSource();
         dataSource.setDriverClassName(Objects.requireNonNull(environment.getProperty("driverUrl")));
         dataSource.setUrl(environment.getProperty("dbUrl"));
@@ -67,7 +66,7 @@ public class SpringConfig implements WebMvcConfigurer {
     }
     
     @Bean 
-    public JdbcTemplate jdbcTemplate() throws DaoException {
+    public JdbcTemplate jdbcTemplate(){
         return new JdbcTemplate(dataSource());
     }
 

@@ -6,24 +6,25 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Component;
 
+import com.github.yuriiyukh.models.Book;
 import com.github.yuriiyukh.models.Person;
 
 @Component
-public class PersonDao {
-
+public class BookDao {
+    
     private final JdbcTemplate jdbcTemplate;
 
     @Autowired
-    public PersonDao(JdbcTemplate jdbcTemplate) {
+    public BookDao(JdbcTemplate jdbcTemplate) {
         this.jdbcTemplate = jdbcTemplate;
     }
 
-    public List<Person> index() {
-        return jdbcTemplate.query("SELECT * FROM Person", new PersonMapper());
+    public List<Book> index() {
+        return jdbcTemplate.query("SELECT * FROM Books", new BookMapper());
     }
 
-    public Person getById(int id) {
-        return jdbcTemplate.query("SELECT * FROM person WHERE person_id = ?", new Object[] { id }, new PersonMapper())
+    public Book getById(int id) {
+        return jdbcTemplate.query("SELECT * FROM person WHERE book_id = ?", new Object[] { id }, new BookMapper())
                 .stream().findAny().orElse(null);
     }
 
