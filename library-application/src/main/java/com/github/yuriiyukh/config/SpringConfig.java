@@ -1,4 +1,4 @@
-package com.github.yuriiyukh.controllers.config;
+package com.github.yuriiyukh.config;
 
 import java.util.Objects;
 

@@ -16,13 +16,11 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.github.yuriiyukh.dao.BookDao;
-import com.github.yuriiyukh.models.Person;
+import com.github.yuriiyukh.models.Book;
 
 @Controller
 @RequestMapping("/books")
 public class BooksController {
-
-    private static final String RESULT = "result";
 
 private final BookDao bookDao;
     
@@ -39,40 +37,40 @@ private final BookDao bookDao;
     
     @GetMapping("/{id}")
     public String show(@PathVariable("id") int id, Model model) {
-        model.addAttribute("person", bookDao.getById(id));
+        model.addAttribute("book", bookDao.getById(id));
         return "books/show";
     }
     
     @GetMapping("/new")
     public String newPerson(Model model) {
-        model.addAttribute("person", new Person());
+        model.addAttribute("book", new Book());
         return "books/new";
     }
     
     @PostMapping()
-    public String create(@ModelAttribute("person") @Validated Person person, BindingResult bindingResult) {
+    public String create(@ModelAttribute("book") @Validated Book book, BindingResult bindingResult) {
         if (bindingResult.hasErrors()) {
             return "books/new";
         }
         
-        bookDao.save(person);
+        bookDao.save(book);
         return "redirect:/books";
     }
     
     @GetMapping("/{id}/edit")
     public String edit(Model model, @PathVariable("id") int id) {
-        model.addAttribute("person", bookDao.getById(id));
+        model.addAttribute("book", bookDao.getById(id));
         
         return "books/edit";
         
     }
     @PatchMapping("/{id}")
-    public String update(@ModelAttribute("person") @Valid Person person, BindingResult bindingResult, @PathVariable("id") int id){
+    public String update(@ModelAttribute("book") @Valid Book book, BindingResult bindingResult, @PathVariable("id") int id){
         if (bindingResult.hasErrors()) {
             return "books/edit";
         }
         
-        bookDao.update(id, person);
+        bookDao.update(id, book);
         return "redirect:/books";
     }
     
