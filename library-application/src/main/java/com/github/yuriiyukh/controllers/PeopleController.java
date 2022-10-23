@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.github.yuriiyukh.dao.PersonDao;
 import com.github.yuriiyukh.models.Person;
+import com.github.yuriiyukh.util.PersonValidator;
 
 import javax.validation.Valid;
 
@@ -23,10 +24,12 @@ import javax.validation.Valid;
 public class PeopleController {
     
     private final PersonDao personDao;
+    private final PersonValidator personValidator;
     
     @Autowired
-    public PeopleController(PersonDao personDao) {
+    public PeopleController(PersonDao personDao, PersonValidator personValidator) {
         this.personDao = personDao;
+        this.personValidator = personValidator;
     }
     
     @GetMapping()
@@ -49,6 +52,8 @@ public class PeopleController {
     
     @PostMapping()
     public String create(@ModelAttribute("person") @Validated Person person, BindingResult bindingResult) {
+        
+        personValidator.validate(person, bindingResult);
         if (bindingResult.hasErrors()) {
             return "people/new";
         }
@@ -66,6 +71,8 @@ public class PeopleController {
     }
     @PatchMapping("/{id}")
     public String update(@ModelAttribute("person") @Valid Person person, BindingResult bindingResult, @PathVariable("id") int id){
+
+        personValidator.validate(person, bindingResult);
         if (bindingResult.hasErrors()) {
             return "people/edit";
         }

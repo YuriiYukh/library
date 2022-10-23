@@ -27,6 +27,11 @@ public class PersonDao {
                 .stream().findAny().orElse(null);
     }
 
+    public Person getByName(String name) {
+        return jdbcTemplate.query("SELECT * FROM person WHERE full_name = ?", new Object[] { name }, new PersonMapper())
+                .stream().findAny().orElse(null);
+    }
+
     public void save(Person person) {
         jdbcTemplate.update("INSERT INTO Person(full_name,birth_year) VALUES (?, ?)", person.getName(),
                 person.getBirthYear());
