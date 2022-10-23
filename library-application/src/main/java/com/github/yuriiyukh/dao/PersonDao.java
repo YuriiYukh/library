@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Component;
 
+import com.github.yuriiyukh.models.Book;
 import com.github.yuriiyukh.models.Person;
 
 @Component
@@ -23,7 +24,7 @@ public class PersonDao {
     }
 
     public Person getById(int id) {
-        return jdbcTemplate.query("SELECT * FROM person WHERE person_id = ?", new Object[] { id }, new PersonMapper())
+        return jdbcTemplate.query("SELECT * FROM person WHERE id = ?", new Object[] { id }, new PersonMapper())
                 .stream().findAny().orElse(null);
     }
 
@@ -33,17 +34,20 @@ public class PersonDao {
     }
 
     public void save(Person person) {
-        jdbcTemplate.update("INSERT INTO Person(full_name,birth_year) VALUES (?, ?)", person.getName(),
+        jdbcTemplate.update("INSERT INTO Person(full_name, birth_year) VALUES (?, ?)", person.getName(),
                 person.getBirthYear());
     }
 
     public void update(int id, Person updatedPerson) {
-        jdbcTemplate.update("UPDATE Person SET full_name = ?, birth_year = ? WHERE person_id = ?",
+        jdbcTemplate.update("UPDATE Person SET full_name = ?, birth_year = ? WHERE id = ?",
                 updatedPerson.getName(), updatedPerson.getBirthYear(), id);
     }
 
     public void delete(int id) {
         jdbcTemplate.update("DELETE FROM Person WHERE id = ?", id);
     }
-
+    
+    public List<Book> getAssignedBooks(int id) {
+        return jdbcTemplate.query("SELECT * FROM books WHERE person_id = ?", new Object[] { id }, new BookMapper());
+    }
 }

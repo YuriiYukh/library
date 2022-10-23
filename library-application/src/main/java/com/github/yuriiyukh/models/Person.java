@@ -2,12 +2,14 @@ package com.github.yuriiyukh.models;
 
 import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
+import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 
 public class Person {
     private int id;
     
     @Size(min = 2, max = 75, message = "Name should be between 2 and 75 chars")
+    @Pattern(regexp = "[A-Z]\\w+ [A-Z]\\w+ [A-Z]\\w+", message = "Enter full name in format '(Last Name) (First Name) (Patronymic)'")
     private String name;
     
     @Min(value = 1900, message = "Age should be above 1900")
