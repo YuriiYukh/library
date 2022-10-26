@@ -45,13 +45,14 @@ public class BookDao {
 
     public Optional<Person> getBookOwner(int id) {
         return jdbcTemplate
-                .query("SELECT Person.* FROM books JOIN person ON books.person_id = person.id WHERE books.id = ?",
+                .query("SELECT person.* FROM books JOIN person ON books.person_id = person.id WHERE books.id = ?",
                         new Object[] { id }, new PersonMapper())
                 .stream().findAny();
     }
 
-    public void assign(int id, Person person) {
-        jdbcTemplate.update("UPDATE books SET person_id = ? WHERE id = ?", person.getId(), id);
+    public void assign(int id, Person selectedPerson) {
+        System.out.println(selectedPerson.getId());
+        jdbcTemplate.update("UPDATE books SET person_id = ? WHERE id = ?", selectedPerson.getId(), id);
         
     }
 

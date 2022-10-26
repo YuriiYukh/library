@@ -26,7 +26,7 @@ import com.github.yuriiyukh.models.Person;
 @RequestMapping("/books")
 public class BooksController {
 
-    private static final String REDIRECT_BOOKS = "redirect:/books";
+    private static final String REDIRECT_BOOKS = "redirect:/books/";
     private static final String OWNER_KEY = "owner";
     private static final String PEOPLE_KEY = "people";
     private static final String BOOK_KEY = "book";
